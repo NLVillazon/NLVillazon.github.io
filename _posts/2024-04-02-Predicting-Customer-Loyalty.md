@@ -597,7 +597,7 @@ In exactly the same way we did for Linear Regression, in the next code block we 
 
 Once we have done this, we split our data into training and test sets to ensure we can fairly validate the accuracy of the predictions on data that was not used in training.  In this case, we have allocated 80% of the data for training, and the remaining 20% for validation.
 
-<br>
+
 ```python
 
 # split data into X and y objects for modelling
@@ -618,7 +618,7 @@ Just like the Linear Regression algorithm, the Decision Tree cannot deal with da
 
 As *gender* doesn't have any explicit *order* to it, in other words, Male isn't higher or lower than Female and vice versa - we would again apply One Hot Encoding to the categorical column.
 
-<br>
+
 ```python
 
 # list of categorical variables that need encoding
