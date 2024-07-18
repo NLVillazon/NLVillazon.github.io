@@ -63,6 +63,7 @@ The goal for the project was to build a model that would accurately predict the 
 Based upon these, the chosen the model is the Random Forest as it was a) the most consistently performant on the test set across classication accuracy, precision, recall, and f1-score, and b) the feature importance and permutation importance allows the client an understanding of the key drivers behind *delivery club* signups.
 
 <br>
+
 **Metric 1: Classification Accuracy**
 
 * KNN = 0.936
@@ -71,6 +72,7 @@ Based upon these, the chosen the model is the Random Forest as it was a) the mos
 * Logistic Regression = 0.866
 
 <br>
+
 **Metric 2: Precision**
 
 * KNN = 1.00
