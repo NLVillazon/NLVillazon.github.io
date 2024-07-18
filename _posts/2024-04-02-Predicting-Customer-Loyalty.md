@@ -1,4 +1,3 @@
-2022-01-18-predicting-customer-loyalty.md
 ---
 layout: post
 title: Predicting Customer Loyalty Using ML
