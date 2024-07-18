@@ -81,6 +81,7 @@ Based upon these, the chosen the model is the Random Forest as it was a) the mos
 * Logistic Regression = 0.784
 
 <br>
+
 **Metric 3: Recall**
 
 * Random Forest = 0.904
@@ -89,6 +90,7 @@ Based upon these, the chosen the model is the Random Forest as it was a) the mos
 * Logistic Regression = 0.69
 
 <br>
+
 **Metric 4: F1 Score**
 
 * Random Forest = 0.895
@@ -131,6 +133,7 @@ After this data pre-processing in Python, we have a dataset for modelling that c
 | average_basket_value | Independent | The average spend per transaction for the customer in ABC Grocery - 3 months pre campaign |
 
 <br>
+
 # Modelling Overview  <a name="modelling-overview"></a>
 
 We will build a model that looks to accurately predict *signup_flag*, based upon the customer metrics listed above.
@@ -144,6 +147,7 @@ As we are predicting a binary output, we tested three classification modelling a
 * Random Forest
 
 <br>
+
 # Logistic Regression <a name="logreg-title"></a>
 
 We utlise the scikit-learn library within Python to model our data using Logistic Regression. The code sections below are broken up into 5 key sections:
@@ -155,6 +159,7 @@ We utlise the scikit-learn library within Python to model our data using Logisti
 * Optimal Threshold Analysis
 
 <br>
+
 ### Data Import <a name="logreg-import"></a>
 
 Since we saved our modelling data as a pickle file, we import it.  We ensure we remove the id column, and we also ensure our data is shuffled.
@@ -192,6 +197,7 @@ data_for_model["signup_flag"].value_counts(normalize = True)
 From the last step in the above code, we see that **69% of customers did not sign up and 31% did**.  This tells us that while the data isn't perfectly balanced at 50:50, it isn't *too* imbalanced either.  Because of this, and as you will see, we make sure to not rely on classification accuracy alone when assessing results - also analysing Precision, Recall, and F1-Score.
 
 <br>
+
 ### Data Preprocessing <a name="logreg-preprocessing"></a>
 
 For Logistic Regression we have certain data preprocessing steps that need to be addressed, including:
@@ -202,6 +208,7 @@ For Logistic Regression we have certain data preprocessing steps that need to be
 * Multicollinearity & Feature Selection
 
 <br>
+
 ##### Missing Values
 
 The number of missing values in the data was extremely low, so instead of applying any imputation (i.e. mean, most common value) we will just remove those rows
@@ -215,6 +222,7 @@ data_for_model.dropna(how = "any", inplace = True)
 ```
 
 <br>
+
 ##### Outliers
 
 The ability for a Logistic Regression model to generalise well across *all* data can be hampered if there are outliers present.  There is no right or wrong way to deal with outliers, but it is always something worth very careful consideration - just because a value is high or low, does not necessarily mean it should not be there!
@@ -234,6 +242,7 @@ In this code section, we use **.describe()** from Pandas to investigate the spre
 | max | 400.97 | 0.88 | 7372.06 | 910.00 | 75.00 | 5.00 | 141.05  |
 
 <br>
+
 Based on this investigation, we see some *max* column values for several variables to be much higher than the *median* value.
 
 This is for columns *distance_from_store*, *total_sales*, and *total_items*
@@ -269,6 +278,7 @@ for column in outlier_columns:
 ```
 
 <br>
+
 ##### Split Out Data For Modelling
 
 In the next code block we do two things, we firstly split our data into an **X** object which contains only the predictor variables, and a **y** object that contains only our dependent variable.
@@ -289,6 +299,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 ```
 
 <br>
+
 ##### Categorical Predictor Variables
 
 In our dataset, we have one categorical variable *gender* which has values of "M" for Male, "F" for Female, and "U" for Unknown.
@@ -334,6 +345,7 @@ X_test.drop(categorical_vars, axis = 1, inplace = True)
 ```
 
 <br>
+
 ##### Feature Selection
 
 Feature Selection is the process used to select the input variables that are most important to your Machine Learning task.  It can be a very important addition or at least, consideration, in certain scenarios.  The potential benefits of Feature Selection are:
@@ -383,6 +395,7 @@ plt.show()
 ```
 
 <br>
+
 This creates the below plot, which shows us that the highest cross-validated classification accuracy (0.904) is when we include seven of our original input variables.  The variable that has been dropped is *total_sales* but from the chart we can see that the difference is negligible.  However, we will continue on with the selected seven!
 
 <br>
@@ -405,6 +418,7 @@ clf.fit(X_train, y_train)
 ```
 
 <br>
+
 ### Model Performance Assessment <a name="logreg-model-assessment"></a>
 
 ##### Predict On The Test Set
@@ -422,6 +436,7 @@ y_pred_prob = clf.predict_proba(X_test)[:,1]
 ```
 
 <br>
+
 ##### Confusion Matrix
 
 A Confusion Matrix provides us a visual way to understand how our predictions match up against the actual values for those test set observations.
@@ -456,8 +471,10 @@ The aim is to have a high proportion of observations falling into the top left c
 Since the proportion of signups in our data was around 30:70 we will next analyse not only Classification Accuracy, but also Precision, Recall, and F1-Score which will help us assess how well our model has performed in reality.
 
 <br>
+
 ##### Classification Performance Metrics
 <br>
+
 **Classification Accuracy**
 
 Classification Accuracy is a metric that tells us *of all predicted observations, what proportion did we correctly classify*.  This is very intuitive, but when dealing with imbalanced classes, can be misleading.  
@@ -467,6 +484,7 @@ An example of this could be a rare disease. A model with a 98% Classification Ac
 In this example of the rare disease, we could define Classification Accuracy as *of all predicted patients, what proportion did we correctly classify as either having the disease, or not having the disease*
 
 <br>
+
 **Precision & Recall**
 
 Precision is a metric that tells us *of all observations that were predicted as positive, how many actually were positive*
@@ -482,6 +500,7 @@ The tricky thing about Precision & Recall is that it is impossible to optimise b
 So - there is one more metric we will discuss & calculate, which is actually a *combination* of both...
 
 <br>
+
 **F1 Score**
 
 F1-Score is a metric that essentially "combines" both Precision & Recall.  Technically speaking, it is the harmonic mean of these two metrics.  A good, or high, F1-Score comes when there is a balance between Precision & Recall, rather than a disparity between them.
@@ -519,6 +538,7 @@ Running this code gives us:
 Since our data is *somewhat* imbalanced, looking at these metrics rather than just Classification Accuracy on it's own - is a good idea, and gives us a much better understanding of what our predictions mean!  We will use these same metrics when applying other models for this task, and can compare how they stack up.
 
 <br>
+
 ### Finding The Optimal Classification Threshold <a name="logreg-opt-threshold"></a>
 
 By default, most pre-built classification models & algorithms will just use a 50% probability to discern between a positive class prediction (delivery club signup) and a negative class prediction (delivery club non-signup).
@@ -584,12 +604,14 @@ plt.show()
 ![alt text](/img/posts/log-reg-optimal-threshold-plot.png "Logistic Regression Optimal Threshold Plot")
 
 <br>
+
 Along the x-axis of the above plot we have the different classification thresholds that were testing.  Along the y-axis we have the performance score for each of our three metrics.  As per the legend, we have Precision as a blue dotted line, Recall as an orange dotted line, and F1-Score as a thick green line.  You can see the interesting "zero-sum" relationship between Precision & Recall *and* you can see that the point where Precision & Recall meet is where F1-Score is maximised.
 
 As you can see at the top of the plot, the optimal F1-Score for this model 0.78 and this is obtained at a classification threshold of 0.44.  This is higher than the F1-Score of 0.734 that we achieved at the default classification threshold of 0.50!
 
 ___
 <br>
+
 # Decision Tree <a name="clftree-title"></a>
 
 We will again utlise the scikit-learn library within Python to model our data using a Decision Tree. The code sections below are broken up into 6 key sections:
@@ -602,6 +624,7 @@ We will again utlise the scikit-learn library within Python to model our data us
 * Decision Tree Regularisation
 
 <br>
+
 ### Data Import <a name="clftree-import"></a>
 
 Since we saved our modelling data as a pickle file, we import it.  We ensure we remove the id column, and we also ensure our data is shuffled.
@@ -635,6 +658,7 @@ data_for_model["signup_flag"].value_counts(normalize = True)
 
 ```
 <br>
+
 ### Data Preprocessing <a name="clftree-preprocessing"></a>
 
 While Logistic Regression is susceptible to the effects of outliers, and highly correlated input variables - Decision Trees are not, so the required preprocessing here is lighter. We still however will put in place logic for:
@@ -643,6 +667,7 @@ While Logistic Regression is susceptible to the effects of outliers, and highly 
 * Encoding categorical variables to numeric form
 
 <br>
+
 ##### Missing Values
 
 The number of missing values in the data was extremely low, so instead of applying any imputation (i.e. mean, most common value) we will just remove those rows
@@ -656,6 +681,7 @@ data_for_model.dropna(how = "any", inplace = True)
 ```
 
 <br>
+
 ##### Split Out Data For Modelling
 
 In exactly the same way we did for Logistic Regression, in the next code block we do two things, we firstly split our data into an **X** object which contains only the predictor variables, and a **y** object that contains only our dependent variable.
@@ -677,6 +703,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 ```
 
 <br>
+
 ##### Categorical Predictor Variables
 
 In our dataset, we have one categorical variable *gender* which has values of "M" for Male, "F" for Female, and "U" for Unknown.
@@ -714,6 +741,7 @@ X_test.drop(categorical_vars, axis = 1, inplace = True)
 ```
 
 <br>
+
 ### Model Training <a name="clftree-model-training"></a>
 
 Instantiating and training our Decision Tree model is done using the below code.  We use the *random_state* parameter to ensure we get reproducible results, and this helps us understand any improvements in performance with changes to model hyperparameters.
@@ -729,6 +757,7 @@ clf.fit(X_train, y_train)
 ```
 
 <br>
+
 ### Model Performance Assessment <a name="clftree-model-assessment"></a>
 
 ##### Predict On The Test Set
@@ -746,6 +775,7 @@ y_pred_prob = clf.predict_proba(X_test)[:,1]
 ```
 
 <br>
+
 ##### Confusion Matrix
 
 As we discussed in the above section applying Logistic Regression - a Confusion Matrix provides us a visual way to understand how our predictions match up against the actual values for those test set observations.
@@ -780,8 +810,10 @@ The aim is to have a high proportion of observations falling into the top left c
 Since the proportion of signups in our data was around 30:70 we will again analyse not only Classification Accuracy, but also Precision, Recall, and F1-Score as they will help us assess how well our model has performed from different points of view.
 
 <br>
+
 ##### Classification Performance Metrics
 <br>
+
 **Accuracy, Precision, Recall, F1-Score**
 
 For details on these performance metrics, please see the above section on Logistic Regression.  Using all four of these metrics in combination gives a really good overview of the performance of a classification model, and gives us an understanding of the different scenarios & considerations!
@@ -815,6 +847,7 @@ These are all higher than what we saw when applying Logistic Regression, even af
 
 
 <br>
+
 ### Visualise Our Decision Tree <a name="clftree-visualise"></a>
 
 To see the decisions that have been made in the tree, we can use the plot_tree functionality that we imported from scikit-learn.  To do this, we use the below code:
@@ -845,6 +878,7 @@ This is a very powerful visual, and one that can be shown to stakeholders in the
 One interesting thing to note is that the *very first split* appears to be using the variable *distance from store* so it would seem that this is a very important variable when it comes to predicting signups to the delivery club!
 
 <br>
+
 ### Decision Tree Regularisation <a name="clftree-model-regularisation"></a>
 
 Decision Tree's can be prone to over-fitting, in other words, without any limits on their splitting, they will end up learning the training data perfectly.  We would much prefer our model to have a more *generalised* set of rules, as this will be more robust & reliable when making predictions on *new* data.
@@ -895,10 +929,12 @@ That code gives us the below plot - which visualises the results!
 ![alt text](/img/posts/clf-tree-max-depth-plot.png "Decision Tree Max Depth Plot")
 
 <br>
+
 In the plot we can see that the *maximum* F1-Score on the test set is found when applying a *max_depth* value of 9 which takes our F1-Score up to 0.925
 
 ___
 <br>
+
 # Random Forest <a name="rf-title"></a>
 
 We will again utlise the scikit-learn library within Python to model our data using a Random Forest. The code sections below are broken up into 4 key sections:
@@ -909,6 +945,7 @@ We will again utlise the scikit-learn library within Python to model our data us
 * Performance Assessment
 
 <br>
+
 ### Data Import <a name="rf-import"></a>
 
 Again, since we saved our modelling data as a pickle file, we import it.  We ensure we remove the id column, and we also ensure our data is shuffled.
@@ -940,6 +977,7 @@ data_for_model = shuffle(data_for_model, random_state = 42)
 
 ```
 <br>
+
 ### Data Preprocessing <a name="rf-preprocessing"></a>
 
 While Linear Regression is susceptible to the effects of outliers, and highly correlated input variables - Random Forests, just like Decision Trees, are not, so the required preprocessing here is lighter. We still however will put in place logic for:
@@ -948,6 +986,7 @@ While Linear Regression is susceptible to the effects of outliers, and highly co
 * Encoding categorical variables to numeric form
 
 <br>
+
 ##### Missing Values
 
 The number of missing values in the data was extremely low, so instead of applying any imputation (i.e. mean, most common value) we will just remove those rows.  Again, this is exactly the same process we ran for Logistic Regression & the Decision Tree.
@@ -961,6 +1000,7 @@ data_for_model.dropna(how = "any", inplace = True)
 ```
 
 <br>
+
 ##### Split Out Data For Modelling
 
 In exactly the same way we did for both Logistic Regression & our Decision Tree, in the next code block we do two things, we firstly split our data into an X object which contains only the predictor variables, and a y object that contains only our dependent variable.
@@ -981,6 +1021,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 ```
 
 <br>
+
 ##### Categorical Predictor Variables
 
 In our dataset, we have one categorical variable *gender* which has values of "M" for Male, "F" for Female, and "U" for Unknown.
@@ -1018,6 +1059,7 @@ X_test.drop(categorical_vars, axis = 1, inplace = True)
 ```
 
 <br>
+
 ### Model Training <a name="rf-model-training"></a>
 
 Instantiating and training our Random Forest model is done using the below code.  We use the *random_state* parameter to ensure we get reproducible results, and this helps us understand any improvements in performance with changes to model hyperparameters.
@@ -1037,6 +1079,7 @@ clf.fit(X_train, y_train)
 ```
 
 <br>
+
 ### Model Performance Assessment <a name="rf-model-assessment"></a>
 
 ##### Predict On The Test Set
@@ -1054,6 +1097,7 @@ y_pred_prob = clf.predict_proba(X_test)[:,1]
 ```
 
 <br>
+
 ##### Confusion Matrix
 
 As we discussed in the above sections - a Confusion Matrix provides us a visual way to understand how our predictions match up against the actual values for those test set observations.
@@ -1088,8 +1132,10 @@ The aim is to have a high proportion of observations falling into the top left c
 Since the proportion of signups in our data was around 30:70 we will again analyse not only Classification Accuracy, but also Precision, Recall, and F1-Score as they will help us assess how well our model has performed from different points of view.
 
 <br>
+
 ##### Classification Performance Metrics
 <br>
+
 **Accuracy, Precision, Recall, F1-Score**
 
 For details on these performance metrics, please see the above section on Logistic Regression.  Using all four of these metrics in combination gives a really good overview of the performance of a classification model, and gives us an understanding of the different scenarios & considerations!
@@ -1122,6 +1168,7 @@ Running this code gives us:
 These are all higher than what we saw when applying Logistic Regression, and marginally higher than what we got from our Decision Tree.  If we are after out and out accuracy then this would be the best model to choose.  If we were happier with a simpler, easier explain model, but that had almost the same performance - then we may choose the Decision Tree instead!
 
 <br>
+
 ### Feature Importance <a name="rf-model-feature-importance"></a>
 
 Random Forests are an ensemble model, made up of many, many Decision Trees, each of which is different due to the randomness of the data being provided, and the random selection of input variables available at each potential split point.
@@ -1185,6 +1232,7 @@ plt.show()
 
 ```
 <br>
+
 That code gives us the below plots - the first being for *Feature Importance* and the second for *Permutation Importance*!
 
 <br>
@@ -1195,6 +1243,7 @@ That code gives us the below plots - the first being for *Feature Importance* an
 ![alt text](/img/posts/rf-classification-permutation-importance.png "Random Forest Permutation Importance Plot")
 
 <br>
+
 The overall story from both approaches is very similar, in that by far, the most important or impactful input variables are *distance_from_store* and *transaction_count*
 
 Surprisingly, *average_basket_size* was not as important as hypothesised.
@@ -1203,6 +1252,7 @@ There are slight differences in the order or "importance" for the remaining vari
 
 ___
 <br>
+
 # K Nearest Neighbours <a name="knn-title"></a>
 
 We utlise the scikit-learn library within Python to model our data using KNN. The code sections below are broken up into 5 key sections:
@@ -1214,6 +1264,7 @@ We utlise the scikit-learn library within Python to model our data using KNN. Th
 * Optimal Value For K
 
 <br>
+
 ### Data Import <a name="knn-import"></a>
 
 Again, since we saved our modelling data as a pickle file, we import it. We ensure we remove the id column, and we also ensure our data is shuffled.
@@ -1248,9 +1299,11 @@ data_for_model["signup_flag"].value_counts(normalize = True)
 
 ```
 <br>
+
 From the last step in the above code, we see that **69% of customers did not sign up and 31% did**.  This tells us that while the data isn't perfectly balanced at 50:50, it isn't *too* imbalanced either.  Because of this, and as you will see, we make sure to not rely on classification accuracy alone when assessing results - also analysing Precision, Recall, and F1-Score.
 
 <br>
+
 ### Data Preprocessing <a name="knn-preprocessing"></a>
 
 For KNN, as it is a distance based algorithm, we have certain data preprocessing steps that need to be addressed, including:
@@ -1262,6 +1315,7 @@ For KNN, as it is a distance based algorithm, we have certain data preprocessing
 * Feature Selection
 
 <br>
+
 ##### Missing Values
 
 The number of missing values in the data was extremely low, so instead of applying any imputation (i.e. mean, most common value) we will just remove those rows
@@ -1275,6 +1329,7 @@ data_for_model.dropna(how = "any", inplace = True)
 ```
 
 <br>
+
 ##### Outliers
 
 As KNN is a distance based algorithm, you could argue that if a data point is a long way away, then it will simply never be selected as one of the neighbours - and this is true - but outliers can still cause us problems here.  The main issue we face is when we come to scale our input variables, a very important step for a distance based algorithm.
@@ -1296,6 +1351,7 @@ In this code section, just like we saw when applying Logistic Regression, we use
 | max | 400.97 | 0.88 | 7372.06 | 910.00 | 75.00 | 5.00 | 141.05  |
 
 <br>
+
 Again, based on this investigation, we see some *max* column values for several variables to be much higher than the *median* value.
 
 This is for columns *distance_from_store*, *total_sales*, and *total_items*
@@ -1331,6 +1387,7 @@ for column in outlier_columns:
 ```
 
 <br>
+
 ##### Split Out Data For Modelling
 
 In exactly the same way we've done for the other three models, in the next code block we do two things, we firstly split our data into an X object which contains only the predictor variables, and a y object that contains only our dependent variable.
@@ -1351,6 +1408,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 ```
 
 <br>
+
 ##### Categorical Predictor Variables
 
 As we saw when applying the other algorithms, in our dataset, we have one categorical variable *gender* which has values of "M" for Male, "F" for Female, and "U" for Unknown.
@@ -1396,6 +1454,7 @@ X_test.drop(categorical_vars, axis = 1, inplace = True)
 ```
 
 <br>
+
 ##### Feature Scaling
 
 As KNN is a *distance based* algorithm, in other words it is reliant on an understanding of how similar or different data points are across different dimensions in n-dimensional space, the application of *Feature Scaling* is extremely important.
@@ -1426,6 +1485,7 @@ X_test = pd.DataFrame(scale_norm.transform(X_test), columns = X_test.columns)
 ```
 
 <br>
+
 ##### Feature Selection
 
 As we discussed when applying Logistic Regression above - Feature Selection is the process used to select the input variables that are most important to your Machine Learning task.  For more information around this, please see that section above.
@@ -1483,6 +1543,7 @@ The variables that have been dropped are *total_items* and *credit score* - we w
 ![alt text](/img/posts/knn-feature-selection-plot.png "KNN Feature Selection Plot")
 
 <br>
+
 ### Model Training <a name="knn-model-training"></a>
 
 Instantiating and training our KNN model is done using the below code.  At this stage we will just use the default parameters, meaning that the algorithm:
@@ -1501,6 +1562,7 @@ clf.fit(X_train, y_train)
 ```
 
 <br>
+
 ### Model Performance Assessment <a name="knn-model-assessment"></a>
 
 ##### Predict On The Test Set
@@ -1518,6 +1580,7 @@ y_pred_prob = clf.predict_proba(X_test)[:,1]
 ```
 
 <br>
+
 ##### Confusion Matrix
 
 As we've seen with all models so far, our Confusion Matrix provides us a visual way to understand how our predictions match up against the actual values for those test set observations.
@@ -1554,8 +1617,10 @@ The results here are interesting - all of the errors are where the model incorre
 Since the proportion of signups in our data was around 30:70 we will next analyse not only Classification Accuracy, but also Precision, Recall, and F1-Score which will help us assess how well our model has performed in reality.
 
 <br>
+
 ##### Classification Performance Metrics
 <br>
+
 **Accuracy, Precision, Recall, F1-Score**
 
 For details on these performance metrics, please see the above section on Logistic Regression.  Using all four of these metrics in combination gives a really good overview of the performance of a classification model, and gives us an understanding of the different scenarios & considerations!
@@ -1588,6 +1653,7 @@ Running this code gives us:
 These are interesting.  The KNN has obtained the highest overall Classification Accuracy & Precision, but the lower Recall score has penalised the F1-Score meaning that is actually lower than what was seen for both the Decision Tree & the Random Forest!
 
 <br>
+
 ### Finding The Optimal Value For k <a name="knn-opt-k"></a>
 
 By default, the KNN algorithm within scikit-learn will use k = 5 meaning that classifications are based upon the five nearest neighbouring data-points in n-dimensional space.
@@ -1636,10 +1702,12 @@ That code gives us the below plot - which visualises the results!
 ![alt text](/img/posts/knn-optimal-k-value-plot.png "KNN Optimal k Value Plot")
 
 <br>
+
 In the plot we can see that the *maximum* F1-Score on the test set is found when applying a k value of 5 - which is exactly what we started with, so nothing needs to change!
 
 ___
 <br>
+
 # Modelling Summary  <a name="modelling-summary"></a>
 
 The goal for the project was to build a model that would accurately predict the customers that would sign up for the *delivery club*.  This would allow for a much more targeted approach when running the next iteration of the campaign.  A secondary goal was to understand what the drivers for this are, so the client can get closer to the customers that need or want this service, and enhance their messaging.
@@ -1647,6 +1715,7 @@ The goal for the project was to build a model that would accurately predict the 
 Based upon these, the chosen the model is the Random Forest as it was a) the most consistently performant on the test set across classication accuracy, precision, recall, and f1-score, and b) the feature importance and permutation importance allows the client an understanding of the key drivers behind *delivery club* signups.
 
 <br>
+
 **Metric 1: Classification Accuracy**
 
 * KNN = 0.936
@@ -1655,6 +1724,7 @@ Based upon these, the chosen the model is the Random Forest as it was a) the mos
 * Logistic Regression = 0.866
 
 <br>
+
 **Metric 2: Precision**
 
 * KNN = 1.00
@@ -1663,6 +1733,7 @@ Based upon these, the chosen the model is the Random Forest as it was a) the mos
 * Logistic Regression = 0.784
 
 <br>
+
 **Metric 3: Recall**
 
 * Random Forest = 0.904
@@ -1671,6 +1742,7 @@ Based upon these, the chosen the model is the Random Forest as it was a) the mos
 * Logistic Regression = 0.69
 
 <br>
+
 **Metric 4: F1 Score**
 
 * Random Forest = 0.895
@@ -1680,6 +1752,7 @@ Based upon these, the chosen the model is the Random Forest as it was a) the mos
 
 ___
 <br>
+
 # Application <a name="modelling-application"></a>
 
 We now have a model object, and a the required pre-processing steps to use this model for the next *delivery club* campaign.  When this is ready to launch we can aggregate the neccessary customer information and pass it through, obtaining predicted probabilities for each customer signing up.
@@ -1688,6 +1761,7 @@ Based upon this, we can work with the client to discuss where their budget can s
 
 ___
 <br>
+
 # Growth & Next Steps <a name="growth-next-steps"></a>
 
 While predictive accuracy was relatively high - other modelling approaches could be tested, especially those somewhat similar to Random Forest, for example XGBoost, LightGBM to see if even more accuracy could be gained.
