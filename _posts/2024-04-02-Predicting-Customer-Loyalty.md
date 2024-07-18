@@ -774,7 +774,7 @@ plt.show()
 <br>
 That code gives us the below plot - which visualises the results!
 
-<br>
+
 ![alt text](/img/posts/regression-tree-max-depth-plot.png "Decision Tree Max Depth Plot")
 
 <br>
@@ -804,7 +804,7 @@ tree = plot_tree(regressor,
 <br>
 That code gives us the below plot:
 
-<br>
+
 ![alt text](/img/posts/regression-tree-nodes-plot.png "Decision Tree Max Depth Plot")
 
 <br>
