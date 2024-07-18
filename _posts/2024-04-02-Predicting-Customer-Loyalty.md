@@ -1082,9 +1082,11 @@ plt.show()
 That code gives us the below plots - the first being for *Feature Importance* and the second for *Permutation Importance*!
 
 <br>
+
 ![alt text](/img/posts/rf-regression-feature-importance.png "Random Forest Feature Importance Plot")
 <br>
 <br>
+
 ![alt text](/img/posts/rf-regression-permutation-importance.png "Random Forest Permutation Importance Plot")
 
 <br>
