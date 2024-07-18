@@ -39,6 +39,7 @@ Based upon the results of the last campaign and the customer data available, we 
 Let's use Machine Learning to take on this task!
 <br>
 <br>
+
 ### Actions <a name="overview-actions"></a>
 
 We firstly needed to compile the necessary data from tables in the database, gathering key customer metrics that may help predict *delivery club* membership.
@@ -195,6 +196,7 @@ data_for_model["signup_flag"].value_counts(normalize = True)
 
 ```
 <br>
+
 From the last step in the above code, we see that **69% of customers did not sign up and 31% did**.  This tells us that while the data isn't perfectly balanced at 50:50, it isn't *too* imbalanced either.  Because of this, and as you will see, we make sure to not rely on classification accuracy alone when assessing results - also analysing Precision, Recall, and F1-Score.
 
 <br>
@@ -404,6 +406,7 @@ This creates the below plot, which shows us that the highest cross-validated cla
 ![alt text](/img/posts/log-reg-feature-selection-plot.png "Logistic Regression Feature Selection Plot")
 
 <br>
+
 ### Model Training <a name="logreg-model-training"></a>
 
 Instantiating and training our Logistic Regression model is done using the below code.  We use the *random_state* parameter to ensure reproducible results, meaning any refinements can be compared to past results.  We also specify *max_iter = 1000* to allow the solver more attempts at finding an optimal regression line, as the default value of 100 was not enough.
@@ -1241,6 +1244,7 @@ That code gives us the below plots - the first being for *Feature Importance* an
 ![alt text](/img/posts/rf-classification-feature-importance.png "Random Forest Feature Importance Plot")
 <br>
 <br>
+
 ![alt text](/img/posts/rf-classification-permutation-importance.png "Random Forest Permutation Importance Plot")
 
 <br>
