@@ -264,6 +264,7 @@ Because of this, we apply some outlier removal in order to facilitate generalisa
 We do this using the "boxplot approach" where we remove any rows where the values within those columns are outside of the interquartile range multiplied by 2.
 
 <br>
+
 ```python
 
 outlier_investigation = data_for_model.describe()
@@ -294,6 +295,7 @@ In the next code block we do two things, we firstly split our data into an **X**
 Once we have done this, we split our data into training and test sets to ensure we can fairly validate the accuracy of the predictions on data that was not used in training.  In this case, we have allocated 80% of the data for training, and the remaining 20% for validation.
 
 <br>
+
 ```python
 
 # split data into X and y objects for modelling
