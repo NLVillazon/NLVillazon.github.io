@@ -243,6 +243,7 @@ Because of this, we apply some outlier removal in order to facilitate generalisa
 We do this using the "boxplot approach" where we remove any rows where the values within those columns are outside of the interquartile range multiplied by 2.
 
 <br>
+
 ```python
 
 outlier_investigation = data_for_model.describe()
@@ -273,6 +274,7 @@ In the next code block we do two things, we firstly split our data into an **X**
 Once we have done this, we split our data into training and test sets to ensure we can fairly validate the accuracy of the predictions on data that was not used in training.  In this case, we have allocated 80% of the data for training, and the remaining 20% for validation.  We make sure to add in the *stratify* parameter to ensure that both our training and test sets have the same proportion of customers who did, and did not, sign up for the *delivery club* - meaning we can be more confident in our assessment of predictive performance.
 
 <br>
+
 ```python
 
 # split data into X and y objects for modelling
@@ -302,6 +304,7 @@ In the code, we also make sure to apply *fit_transform* to the training set, but
 For ease, after we have applied One Hot Encoding, we turn our training and test objects back into Pandas Dataframes, with the column names applied.
 
 <br>
+
 ```python
 
 # list of categorical variables that need encoding
@@ -342,6 +345,7 @@ There are many, many ways to apply Feature Selection.  These range from simple m
 For our task we applied a variation of Reursive Feature Elimination called *Recursive Feature Elimination With Cross Validation (RFECV)* where we split the data into many "chunks" and iteratively trains & validates models on each "chunk" seperately.  This means that each time we assess different models with different variables included, or eliminated, the algorithm also knows how accurate each of those models was.  From the suite of model scenarios that are created, the algorithm can determine which provided the best accuracy, and thus can infer the best set of input variables to use!
 
 <br>
+
 ```python
 
 # instantiate RFECV & the model type to be utilised
@@ -380,6 +384,7 @@ plt.show()
 This creates the below plot, which shows us that the highest cross-validated classification accuracy (0.904) is when we include seven of our original input variables.  The variable that has been dropped is *total_sales* but from the chart we can see that the difference is negligible.  However, we will continue on with the selected seven!
 
 <br>
+
 ![alt text](/img/posts/log-reg-feature-selection-plot.png "Logistic Regression Feature Selection Plot")
 
 <br>
@@ -440,6 +445,7 @@ plt.show()
 ```
 
 <br>
+
 ![alt text](/img/posts/log-reg-confusion-matrix.png "Logistic Regression Confusion Matrix")
 
 <br>
@@ -520,6 +526,7 @@ Just because 50% is the default threshold *does not mean* it is the best one for
 Here, we will test many potential classification thresholds, and plot the Precision, Recall & F1-Score, and find an optimal solution!
 
 <br>
+
 ```python
 
 # set up the list of thresholds to loop through
@@ -554,6 +561,7 @@ max_f1_idx = f1_scores.index(max_f1)
 Now we have run this, we can use the below code to plot the results!
 
 <br>
+
 ```python
 
 # plot the results
@@ -570,6 +578,7 @@ plt.show()
 
 ```
 <br>
+
 ![alt text](/img/posts/log-reg-optimal-threshold-plot.png "Logistic Regression Optimal Threshold Plot")
 
 <br>
@@ -653,6 +662,7 @@ Once we have done this, we split our data into training and test sets to ensure 
 
 
 <br>
+
 ```python
 
 # split data into X and y objects for modelling
@@ -674,6 +684,7 @@ Just like the Logisitc Regression algorithm, the Decision Tree cannot deal with 
 As *gender* doesn't have any explicit *order* to it, in other words, Male isn't higher or lower than Female and vice versa - we would again apply One Hot Encoding to the categorical column.
 
 <br>
+
 ```python
 
 # list of categorical variables that need encoding
@@ -758,6 +769,7 @@ plt.show()
 ```
 
 <br>
+
 ![alt text](/img/posts/clf-tree-confusion-matrix.png "Decision Tree Confusion Matrix")
 
 <br>
@@ -806,6 +818,7 @@ These are all higher than what we saw when applying Logistic Regression, even af
 To see the decisions that have been made in the tree, we can use the plot_tree functionality that we imported from scikit-learn.  To do this, we use the below code:
 
 <br>
+
 ```python
 
 # plot the nodes of the decision tree
@@ -821,6 +834,7 @@ tree = plot_tree(clf,
 That code gives us the below plot:
 
 <br>
+
 ![alt text](/img/posts/clf-tree-nodes-plot.png "Decision Tree Max Depth Plot")
 
 <br>
@@ -838,6 +852,7 @@ One effective method of avoiding this over-fitting, is to apply a *max depth* to
 We initially trained our model with a placeholder depth of 5, but unfortunately, we don't necessarily know the *optimal* number for this.  Below we will loop over a variety of values and assess which gives us the best predictive performance!
 
 <br>
+
 ```python
 
 # finding the best max_depth
@@ -874,6 +889,7 @@ plt.show()
 That code gives us the below plot - which visualises the results!
 
 <br>
+
 ![alt text](/img/posts/clf-tree-max-depth-plot.png "Decision Tree Max Depth Plot")
 
 <br>
@@ -950,6 +966,7 @@ In exactly the same way we did for both Logistic Regression & our Decision Tree,
 Once we have done this, we split our data into training and test sets to ensure we can fairly validate the accuracy of the predictions on data that was not used in training. In this case, we have allocated 80% of the data for training, and the remaining 20% for validation. Again, we make sure to add in the stratify parameter to ensure that both our training and test sets have the same proportion of customers who did, and did not, sign up for the delivery club - meaning we can be more confident in our assessment of predictive performance.
 
 <br>
+
 ```python
 
 # split data into X and y objects for modelling
@@ -971,6 +988,7 @@ Just like the Logistic Regression algorithm, Random Forests cannot deal with dat
 As *gender* doesn't have any explicit *order* to it, in other words, Male isn't higher or lower than Female and vice versa - we would again apply One Hot Encoding to the categorical column.
 
 <br>
+
 ```python
 
 # list of categorical variables that need encoding
@@ -1059,6 +1077,7 @@ plt.show()
 ```
 
 <br>
+
 ![alt text](/img/posts/rf-confusion-matrix.png "Random Forest Confusion Matrix")
 
 <br>
@@ -1130,6 +1149,7 @@ In order to understand the *importance*, we *randomise* the values within one of
 Let's put them both in place, and plot the results...
 
 <br>
+
 ```python
 
 # calculate feature importance
@@ -1166,6 +1186,7 @@ plt.show()
 That code gives us the below plots - the first being for *Feature Importance* and the second for *Permutation Importance*!
 
 <br>
+
 ![alt text](/img/posts/rf-classification-feature-importance.png "Random Forest Feature Importance Plot")
 <br>
 <br>
@@ -1284,6 +1305,7 @@ Because of this, we apply some outlier removal in order to facilitate generalisa
 We do this using the "boxplot approach" where we remove any rows where the values within those columns are outside of the interquartile range multiplied by 2.
 
 <br>
+
 ```python
 
 outlier_investigation = data_for_model.describe()
@@ -1314,6 +1336,7 @@ In exactly the same way we've done for the other three models, in the next code 
 Once we have done this, we split our data into training and test sets to ensure we can fairly validate the accuracy of the predictions on data that was not used in training. In this case, we have allocated 80% of the data for training, and the remaining 20% for validation. Again, we make sure to add in the stratify parameter to ensure that both our training and test sets have the same proportion of customers who did, and did not, sign up for the delivery club - meaning we can be more confident in our assessment of predictive performance.
 
 <br>
+
 ```python
 
 # split data into X and y objects for modelling
@@ -1343,6 +1366,7 @@ In the code, we also make sure to apply *fit_transform* to the training set, but
 For ease, after we have applied One Hot Encoding, we turn our training and test objects back into Pandas Dataframes, with the column names applied.
 
 <br>
+
 ```python
 
 # list of categorical variables that need encoding
@@ -1385,6 +1409,7 @@ The below code uses the in-built *MinMaxScaler* functionality from scikit-learn 
 In the code, we also make sure to apply *fit_transform* to the training set, but only *transform* to the test set. This means the scaling logic will learn and apply the scaling "rules" from the training data, but only apply them to the test data (or any other data we predict on in the future). This is important in order to avoid data leakage where the test set learns information about the training data, and means we can’t fully trust model performance metrics!
 
 <br>
+
 ```python
 
 # create our scaler object
@@ -1410,6 +1435,7 @@ Having a high number of input variables also means the algorithm has to process 
 For our task here we are again going to apply *Recursive Feature Elimination With Cross Validation (RFECV)* which is an approach that starts with all input variables, and then iteratively removes those with the weakest relationships with the output variable.  RFECV does this using Cross Validation, so splits the data into many "chunks" and iteratively trains & validates models on each "chunk" seperately.  This means that each time we assess different models with different variables included, or eliminated, the algorithm also knows how accurate each of those models was.  From the suite of model scenarios that are created, the algorithm can determine which provided the best accuracy, and thus can infer the best set of input variables to use!
 
 <br>
+
 ```python
 
 # instantiate RFECV & the model type to be utilised
@@ -1451,6 +1477,7 @@ This creates the below plot, which shows us that the highest cross-validated cla
 The variables that have been dropped are *total_items* and *credit score* - we will continue on with the remaining six!
 
 <br>
+
 ![alt text](/img/posts/knn-feature-selection-plot.png "KNN Feature Selection Plot")
 
 <br>
@@ -1514,6 +1541,7 @@ plt.show()
 ```
 
 <br>
+
 ![alt text](/img/posts/knn-confusion-matrix.png "KNN Confusion Matrix")
 
 <br>
@@ -1567,6 +1595,7 @@ Just because this is the default threshold *does not mean* it is the best one fo
 Here, we will test many potential values for k, and plot the Precision, Recall & F1-Score, and find an optimal solution!
 
 <br>
+
 ```python
 
 # set up range for search, and empty list to append accuracy scores to
@@ -1601,6 +1630,7 @@ plt.show()
 That code gives us the below plot - which visualises the results!
 
 <br>
+
 ![alt text](/img/posts/knn-optimal-k-value-plot.png "KNN Optimal k Value Plot")
 
 <br>
