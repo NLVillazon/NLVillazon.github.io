@@ -325,6 +325,7 @@ In the code, we also make sure to apply *fit_transform* to the training set, but
 For ease, after we have applied One Hot Encoding, we turn our training and test objects back into Pandas Dataframes, with the column names applied.
 
 <br>
+
 ```python
 
 # list of categorical variables that need encoding
@@ -365,6 +366,7 @@ There are many, many ways to apply Feature Selection.  These range from simple m
 For our task we applied a variation of Reursive Feature Elimination called *Recursive Feature Elimination With Cross Validation (RFECV)* where we split the data into many "chunks" and iteratively trains & validates models on each "chunk" seperately.  This means that each time we assess different models with different variables included, or eliminated, the algorithm also knows how accurate each of those models was.  From the suite of model scenarios that are created, the algorithm can determine which provided the best accuracy, and thus can infer the best set of input variables to use!
 
 <br>
+
 ```python
 
 # instantiate RFECV & the model type to be utilised
@@ -498,6 +500,7 @@ The resulting *adjusted* r-squared score from this is **0.754** which as expecte
 
 Although our overall goal for this project is predictive accuracy, rather than an explcit understanding of the relationships of each of the input variables and the output variable, it is always interesting to look at the summary statistics for these.
 <br>
+
 ```python
 
 # extract model coefficients
@@ -882,6 +885,7 @@ In exactly the same way we did for Linear Regression, in the next code block we 
 Once we have done this, we split our data into training and test sets to ensure we can fairly validate the accuracy of the predictions on data that was not used in training.  In this case, we have allocated 80% of the data for training, and the remaining 20% for validation.
 
 <br>
+
 ```python
 
 # split data into X and y objects for modelling
@@ -903,6 +907,7 @@ Just like the Linear Regression algorithm, Random Forests cannot deal with data 
 As *gender* doesn't have any explicit *order* to it, in other words, Male isn't higher or lower than Female and vice versa - we would again apply One Hot Encoding to the categorical column.
 
 <br>
+
 ```python
 
 # list of categorical variables that need encoding
@@ -1039,6 +1044,7 @@ In order to understand the *importance*, we *randomise* the values within one of
 Let's put them both in place, and plot the results...
 
 <br>
+
 ```python
 
 # calculate feature importance
@@ -1126,6 +1132,7 @@ In the following code, we will
 * Make the predictions using .predict()
 
 <br>
+
 ```python
 
 # import required packages
