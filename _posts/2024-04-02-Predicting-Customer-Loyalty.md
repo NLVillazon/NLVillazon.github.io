@@ -738,7 +738,7 @@ One effective method of avoiding this over-fitting, is to apply a *max depth* to
 
 Unfortunately, we don't necessarily know the *best* number of splits to use for this - so below we will loop over a variety of values and assess which gives us the best predictive performance!
 
-<br>
+
 ```python
 
 # finding the best max_depth
@@ -785,7 +785,7 @@ In the plot we can see that the *maximum* classification accuracy on the test se
 
 To see the decisions that have been made in the (re-fitted) tree, we can use the plot_tree functionality that we imported from scikit-learn.  To do this, we use the below code:
 
-<br>
+
 ```python
 
 # re-fit our model using max depth of 4
