@@ -5,7 +5,7 @@ image: "/posts/causal-impact-title-img.png"
 tags: [Causal Impact Analysis, Python]
 ---
 
-In this project we use Causal Impact Analysis to analyse & understand the sales uplift of customers that joined the new "Delivery Club" campaign!.
+In this project we use Causal Impact Analysis to analyse & understand the sales uplift of customers that joined the new "Delivery Club" campaign.
 
 # Table of contents
 
@@ -30,10 +30,11 @@ Earlier in the year, our client, a grocery retailer, ran a campaign to promote t
 
 They want to understand if customers who did join the club have increased their spend in the three months following.  The hypothesis is that, if customers are not paying for deliveries, they will be tempted to shop more frequently, and hopefully purchase more each time.
 
-The aim of this work is to understand and quantify the uplift in sales for customers that joined the club, over and above what they *would* have spent had the club not come into existence!
+The aim of this work is to understand and quantify the uplift in sales for customers that joined the club, over and above what they *would* have spent had the club not come into existence.
 
 <br>
 <br>
+
 ### Actions <a name="overview-actions"></a>
 
 We applied Causal Impact Analysis (see full details below) using the *pycausalimpact* library.
@@ -55,6 +56,7 @@ We saw a 41.1% uplift in sales for those customers that joined the Delivery Club
 
 <br>
 <br>
+
 ### Growth/Next Steps <a name="overview-growth"></a>
 
 It would be interesting to look at this pool of customers (both those who did and did not join the Delivery club) and investigate if there were any differences in sales in these time periods *last year* - this would help us understand if any of the uplift we are seeing here is actually the result of seasonality.
@@ -75,6 +77,7 @@ ___
 # Causal Impact Analysis Overview  <a name="causal-impact-overview"></a>
 
 <br>
+
 #### Context
 
 One of the most common tasks we undertake in Data Science & Data Analysis is *understanding and quantifying a change in a key business metric after some event has taken place*.
@@ -85,7 +88,7 @@ Whatever the scenario, the task is *essentially* the same - we want to understan
 
 But to understand this *robustly & reliably* we really need to understand what *would have happened* had the event not taken place.
 
-In most cases the trends *preceding the event in question* isn’t tame, it is filled with lumps and bumps and ups and downs.  When some key event does take place, understanding what *would have happened had the event not taken place* so we can estimate the true impact can be difficult!
+In most cases the trends *preceding the event in question* isn’t simple, it is filled with ups and downs.  When some key event does take place, understanding what *would have happened had the event not taken place* so we can estimate the true impact can be difficult.
 
 In many cases, the event that we’re analysing is part of a randomised & controlled experiment, and this means understanding the difference between the group that was affected by the event can be compared to a control group, that was purposely held back from the effect of the event.
 
@@ -94,6 +97,7 @@ But there are a lot of cases where we just can’t run a randomised experiment, 
 An approach that works really well in both scenarios, is Causal Impact Analysis.
 
 <br>
+
 #### How It Works
 
 Causal Impact is a time-series technique, originally developed by Google.
@@ -110,19 +114,21 @@ In the case where we don't have a control group, we need to find other sets of d
 
 Either way, this additional data provides the algorithm insights into the trends of the data over time.
 
-The algorithm uses these insights to models the relationship between the two (or more) time-series in the pre-period.  In other words, it finds a set of rules that best predict the time-series of interest, based on the movements and fluctuations of the other time-series that we provided it.
+The algorithm uses these insights to model the relationship between the two (or more) time-series in the pre-period.  In other words, it finds a set of rules that best predict the time-series of interest, based on the movements and fluctuations of the other time-series that we provided it.
 
-Once the algorithm has modelled this relationship, it then looks to apply the learnings from this model in the post-period, the result of which is an estimation for the counterfactual, or what the model *believes would have happened* to our time series if our event never took place!
+Once the algorithm has modelled this relationship, it then looks to apply the learnings from this model in the post-period, the result of which is an estimation for the counterfactual, or what the model *believes would have happened* to our time series if our event never took place.
 
 Once we have this counterfactual, we can proceed to calculate the estimation for the causal effect, or in other words, the effect caused by our event!
 
 <br>
+
 #### Application
 
 Here we will utilise a Python package called **pycausalimpact** to apply this algorithm to our data.  This will model the relationships, and provide very useful plots and summarises to help us understand the results.
 
 ___
 <br>
+
 # Data Overview & Preparation  <a name="causal-impact-data-prep"></a>
 
 In the client database, we have a *campaign_data* table which shows us which customers received each type of "Delivery Club" mailer, which customers were in the control group, and which customers joined the club as a result.
@@ -140,6 +146,7 @@ In the code below, we:
 * Give our groups some meaningful names, to help with interpretation
 
 <br>
+
 ```python
 
 # install the required python libraries
@@ -173,6 +180,7 @@ causal_impact_df.columns = ["member", "non_member"]
 
 ```
 <br>
+
 A sample of this data (the first 5 days of data) can be seen below:
 <br>
 <br>
@@ -190,11 +198,12 @@ In the DataFrame we have the transaction data, and then a column showing the ave
 
 ___
 <br>
+
 # Applying The Causal Impact Algorithm <a name="causal-impact-fit"></a>
 
 In the code below, we specify the start and end dates of the "pre-period" and the start and end dates of the "post-period". We then apply the algorithm by passing in the DataFrame and the specified pre and post period time windows.
 
-The algorithm will model the relationship between members & non-members in the pre-period - and it will use this to create the counterfactual, in other words what it believes would happen to the average daily spend for members in the post-period if no event was to have taken place!
+The algorithm will model the relationship between members & non-members in the pre-period - and it will use this to create the counterfactual, in other words what it believes would happen to the average daily spend for members in the post-period if no event was to have taken place.
 
 The difference between this counterfactual and the actual data in the post-period will be our "causal impact"
 
@@ -213,9 +222,11 @@ We can use the created object (called ci above) to examine & plot the results.
 
 ___
 <br>
+
 # Analysing The Results <a name="causal-impact-results"></a>
 
 <br>
+
 #### Plotting The Results
 
 The *pycausalimpact* library makes plotting the results extremely easy - all done with the single line of code below:
@@ -230,6 +241,7 @@ ci.plot()
 The resulting plot(s) can be seen below.
 
 <br>
+
 ![alt text](/img/posts/causal-impact-results-plot.png "Causal Impact Results Plot")
 
 <br>
@@ -238,6 +250,7 @@ To explain what we have in the above image...
 The vertical dotted line down the middle of each plot is the date that the Delivery Club membership started.  Everything to the left of this dotted line is the pre-period, and everything to the right of the dotted line is the post-period.
 
 <br>
+
 **Chart 1:  Actual vs. Counterfactual**
 
 The top chart shows the actual data for the impacted group as a black line, in other words the *actual* average daily sales for customers who did go on to sign up to the Delivery Club.  You can also see the counterfactual, which is shown with the blue dotted line.  The purple area around the blue dotted line represent the confidence intervals around the counterfactual - in other words, the range in which the algorithm believes the prediction should fall in.  A wider confidence interval suggests that the model is less sure about it's counterfactual prediction - and this is all taken into account when we look to quantify the actual uplift.
@@ -245,6 +258,7 @@ The top chart shows the actual data for the impacted group as a black line, in o
 Just eyeing this first chart, it does indeed look like there is some increase in daily average spend for customers who joined the club, over-and-above what the model suggests they would have done, if the club was never in existence.  We will look at the actual numbers for this very soon.
 
 <br>
+
 **Chart 2:  Pointwise Effects**
 
 This second chart shows us, for each day (or data point in general) in our time-series, the *raw differences* between the actual values and the values for the counterfactual.  It is plotting the *differences* from Chart 1.  As an example, if on Day 1 the actual and the counterfactual were the same, this chart would show a value of 0.  If the actual is higher than the counterfactual then we would see a positive value on this chart, and vice versa.  It is essentially showing how far above or below the counterfactual, the actual values are.
@@ -252,6 +266,7 @@ This second chart shows us, for each day (or data point in general) in our time-
 What is interesting here is that for the pre-period we see a difference surrounding zero, but in the post period we see mostly positive values mirroring what we saw in Chart 1 where the actual average spend was greater than the counterfactual.
 
 <br>
+
 **Chart 3:  Cumulative Effects**
 
 The bottom chart shows the cumulative uplift over time.  In other words this chart is effectively adding up the Pointwise contributions from the second chart over time.  This is very useful as it helps the viewer get a feel for what the total uplift or difference is at any point in time.
@@ -259,6 +274,7 @@ The bottom chart shows the cumulative uplift over time.  In other words this cha
 As we would expect based on the other two charts, there does appear to be a cumulative uplift over time.
 
 <br>
+
 #### Interpreting The Numbers
 
 The *pycausalimpact* library also makes interpreting the numbers very easy.  We can get a clean results summary with the following line of code:
@@ -285,6 +301,7 @@ Posterior prob. of a causal effect: 100.0%
 
 ```
 <br>
+
 At the top of the results summary (above) we see that in the post-period the average actual daily sales per customer over the post-period was $171, higher than that of the counterfactual, which was $121.  This counterfactual prediction had 95% confidence intervals of $113 and $130.
 
 Below that we can see the *absolute effect* which is the difference between actual and counterfactual (so the difference between $171 and $121) - and this figure is essentially showing us the average daily *uplift* in sales over the post-period.  We also get the confidence intervals surrounding that effect, and since these do not pass through zero, we can confidently say that there *was* an uplift driven by the Delivery Club.
@@ -328,6 +345,7 @@ The high level story of this that, yes, we did see an uplift in sales for those 
 
 ___
 <br>
+
 # Growth & Next Steps <a name="growth-next-steps"></a>
 
 It would be interesting to look at this pool of customers (both those who did and did not join the Delivery club) and investigate if there were any differences in sales in these time periods *last year* - this would help us understand if any of the uplift we are seeing here is actually the result of seasonality.
